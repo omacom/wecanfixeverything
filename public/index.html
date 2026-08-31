@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>We can fix everything</title>
+<meta name="description" content="We can fix everything: every missing app, every incompatibility, every paper cut. Omarchy.">
+<link rel="icon" href="https://omarchy.org/assets/images/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;700&display=swap">
+<style>
+  /* Palette lifted from omarchy.org/assets/css/root.css (Tokyo Night). */
+  :root {
+    --background: rgb(26, 27, 38);
+    --blue:       rgb(122, 162, 247);
+    --cyan:       rgb(125, 207, 255);
+    --green:      rgb(158, 206, 106);
+    --red:        rgb(247, 118, 142);
+    --dim:        rgb(65, 72, 104);
+    --white:      rgb(255, 255, 255);
+    --font-family: 'JetBrains Mono', monospace;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { color-scheme: dark; }
+
+  body {
+    background: var(--background);
+    color: var(--blue);
+    font-family: var(--font-family);
+    font-weight: 300;
+    line-height: 1.5;
+    min-height: 100vh;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2em;
+    padding: 2em;
+    text-align: center;
+    text-wrap: balance;
+  }
+
+  /* The slogan, set as the diff it deserves to be. */
+  .diff {
+    text-align: left;
+    font-size: clamp(1.375rem, 6vw, 3rem);
+    line-height: 1.4;
+    white-space: nowrap;
+  }
+
+  .diff del, .diff ins { text-decoration: none; display: block; }
+
+  /* Gutter markers live in ::before so copy/paste still reads like a diff,
+     but a screen reader just hears the sentence. */
+  .ctx::before      { content: "  "; white-space: pre; }
+  .diff del::before { content: "- "; }
+  .diff ins::before { content: "+ "; }
+
+  .diff del { color: var(--red); }
+  .diff del .word { text-decoration: line-through; text-decoration-thickness: 0.06em; }
+  .diff ins { color: var(--green); font-weight: 700; }
+
+  .tagline {
+    font-size: clamp(1rem, 2.5vw, 1.375rem);
+    max-width: 32ch;
+  }
+
+  a {
+    color: var(--cyan);
+    font-weight: 700;
+    font-size: clamp(0.875rem, 1.75vw, 1rem);
+    text-decoration-thickness: 0.0875em;
+    text-underline-offset: 0.25em;
+    transition: color 0.15s cubic-bezier(0.33, 1, 0.68, 1);
+  }
+
+  @media (hover: hover) {
+    a:hover { color: var(--white); }
+  }
+</style>
+</head>
+<body>
+  <p class="diff">
+    <span class="ctx">we can fix</span>
+    <del><span class="word">some things</span></del>
+    <ins>everything</ins>
+  </p>
+  <p class="tagline">every missing app, every incompatibility, every paper cut.</p>
+  <a href="https://omarchy.org/">omarchy.org&nbsp;&rarr;</a>
+</body>
+</html>

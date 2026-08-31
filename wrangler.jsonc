@@ -1,0 +1,14 @@
+{
+  "name": "wecanfixeverything",
+  "compatibility_date": "2026-08-31",
+  "workers_dev": false,
+  "assets": {
+    "directory": "./public",
+    // Any path on the domain shows the page rather than a 404.
+    "not_found_handling": "single-page-application"
+  },
+  "routes": [
+    { "pattern": "wecanfixeverything.com/*",   "zone_name": "wecanfixeverything.com" },
+    { "pattern": "*.wecanfixeverything.com/*", "zone_name": "wecanfixeverything.com" }
+  ]
+}
