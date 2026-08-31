@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;700&display=swap">
+<style>
+  :root {
+    --background: rgb(26, 27, 38);
+    --blue:       rgb(122, 162, 247);
+    --cyan:       rgb(125, 207, 255);
+    --green:      rgb(158, 206, 106);
+    --red:        rgb(247, 118, 142);
+    --dim:        rgb(65, 72, 104);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    width: 1200px;
+    height: 630px;
+    background: var(--background);
+    color: var(--blue);
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 300;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 48px;
+  }
+
+  .diff {
+    font-size: 72px;
+    line-height: 1.4;
+    white-space: nowrap;
+  }
+
+  .diff del, .diff ins { text-decoration: none; display: block; }
+
+  .ctx::before      { content: "  "; white-space: pre; }
+  .diff del::before { content: "- "; }
+  .diff ins::before { content: "+ "; }
+
+  .diff del { color: var(--red); }
+  .diff del .word { text-decoration: line-through; text-decoration-thickness: 0.06em; }
+  .diff ins { color: var(--green); font-weight: 700; }
+
+  .tagline { font-size: 30px; }
+
+  .url { font-size: 24px; color: var(--cyan); font-weight: 700; }
+</style>
+</head>
+<body>
+  <p class="diff">
+    <span class="ctx">we can fix</span>
+    <del><span class="word">some things</span></del>
+    <ins>everything</ins>
+  </p>
+  <p class="tagline">every missing app, every incompatibility, every paper cut.</p>
+  <p class="url">omarchy.org &rarr;</p>
+</body>
+</html>

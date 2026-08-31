@@ -26,3 +26,13 @@ contacted.
 
 Unmatched paths serve the same page rather than a 404, so mistyped deep links
 still land on the slogan.
+
+## The social card
+
+`public/card.png` (1200×630, for Open Graph / X cards) is a headless Chromium
+screenshot of `card.html`, a fixed-size variant of the page:
+
+```sh
+chromium --headless --window-size=1200,630 --hide-scrollbars \
+  --virtual-time-budget=5000 --screenshot=public/card.png card.html
+```
