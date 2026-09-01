@@ -27,6 +27,30 @@ contacted.
 Unmatched paths serve the same page rather than a 404, so mistyped deep links
 still land on the slogan.
 
+## The theme song
+
+The page autoplays "We Can Fix Everything" by Ryan R. Hughes, streamed from the
+Omarchy station rather than vendored into the repo:
+
+```
+https://radio.cliamp.stream/omarchy/tracks/0a7974d4554686ef
+```
+
+Track ids come from `https://radio.cliamp.stream/omarchy/tracks`. That endpoint
+sends `Access-Control-Allow-Origin: *` and `Accept-Ranges: bytes`, so a plain
+cross-origin `<audio>` element can stream and seek it.
+
+Browsers refuse audible autoplay until the visitor has interacted with the page,
+so `play()` is attempted on load and, when it is refused, retried on the first
+click, keypress or tap. The toggle sits in the bottom-right corner, dim until
+you hover it (playing, then paused):
+
+![The music toggle in its two states](docs/music-toggle.png)
+
+It stays hidden until the script unhides it, so with JavaScript off nobody sees
+a dead control. The track does not loop: when it ends, the toggle goes back to
+play.
+
 ## The social card
 
 `public/card.png` (1200×630, for Open Graph / X cards) is a headless Chromium
