@@ -89,6 +89,33 @@
   @media (hover: hover) {
     a:hover { color: var(--white); }
   }
+
+  /* Music toggle. Parked in the corner, dim until you go looking for it. */
+  .music {
+    position: fixed;
+    right: max(1.25em, env(safe-area-inset-right));
+    bottom: max(1.25em, env(safe-area-inset-bottom));
+    display: flex;
+    padding: 0.625em;
+    border: 0;
+    border-radius: 2px;
+    background: none;
+    color: var(--dim);
+    cursor: pointer;
+    transition: color 0.15s cubic-bezier(0.33, 1, 0.68, 1);
+  }
+
+  .music svg { display: block; width: 1em; height: 1em; fill: currentColor; }
+
+  /* One button, two glyphs: show whichever the click will do next. */
+  .music[data-state="playing"] .glyph-play,
+  .music[data-state="paused"]  .glyph-pause { display: none; }
+
+  @media (hover: hover) {
+    .music:hover { color: var(--cyan); }
+  }
+
+  .music:focus-visible { outline: 2px solid var(--cyan); outline-offset: 2px; }
 </style>
 </head>
 <body>
@@ -99,5 +126,67 @@
   </p>
   <p class="tagline">every missing app, every incompatibility, every paper cut.</p>
   <a href="https://omarchy.org/">omarchy.org&nbsp;&rarr;</a>
+
+  <!-- Streamed from the Omarchy station, so nothing is vendored into the repo. -->
+  <audio id="track"
+         src="https://radio.cliamp.stream/omarchy/tracks/0a7974d4554686ef"
+         preload="metadata"
+         autoplay></audio>
+
+  <!-- Hidden until the script unhides it, so a no-JS visitor never sees a dead
+       control (the autoplay attribute above still works without JS). -->
+  <button id="music" class="music" type="button" hidden
+          title="We Can Fix Everything - Ryan R. Hughes">
+    <svg class="glyph-pause" viewBox="0 0 16 16" aria-hidden="true">
+      <path d="M4 3h3v10H4zM9 3h3v10H9z"/>
+    </svg>
+    <svg class="glyph-play" viewBox="0 0 16 16" aria-hidden="true">
+      <path d="M4 2.5v11l9-5.5z"/>
+    </svg>
+  </button>
+
+  <script>
+    const track = document.getElementById('track');
+    const music = document.getElementById('music');
+
+    const GESTURES = ['pointerdown', 'keydown', 'touchstart'];
+
+    function render() {
+      const playing = !track.paused;
+      music.dataset.state = playing ? 'playing' : 'paused';
+      music.setAttribute('aria-label', playing ? 'Pause the music' : 'Play the music');
+    }
+
+    // The button owns its own click; don't let the fallback race it.
+    function onGesture(event) {
+      if (event.target instanceof Element && event.target.closest('#music')) return;
+      track.play().catch(() => {});
+    }
+
+    function arm()    { GESTURES.forEach((t) => document.addEventListener(t, onGesture, { passive: true })); }
+    function disarm() { GESTURES.forEach((t) => document.removeEventListener(t, onGesture)); }
+
+    music.addEventListener('click', () => {
+      if (track.paused) {
+        disarm();
+        track.play().catch(() => {});
+      } else {
+        track.pause();
+      }
+    });
+
+    ['play', 'pause', 'ended'].forEach((e) => track.addEventListener(e, render));
+    track.addEventListener('playing', disarm);
+
+    // Assume playback: a refusal below lands in a microtask, before anything is
+    // painted, while a successful play() has to wait on buffering first.
+    music.dataset.state = 'playing';
+    music.setAttribute('aria-label', 'Pause the music');
+    music.hidden = false;
+
+    // Browsers block audible autoplay until the visitor has interacted with the
+    // page, so when play() is refused we start on the first gesture instead.
+    track.play().catch(() => { arm(); render(); });
+  </script>
 </body>
 </html>
